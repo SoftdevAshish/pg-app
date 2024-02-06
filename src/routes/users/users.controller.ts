@@ -58,6 +58,9 @@ export class UsersController {
   }
 
   @ApiOperation({
+    summary: ` Get Users By Id.`,
+  })
+  @ApiOperation({
     summary: `Users Profile Views By Id.`,
   })
   @Get(':id')
@@ -72,6 +75,9 @@ export class UsersController {
     }
   }
 
+  @ApiOperation({
+    summary: `Users Profile.`,
+  })
   @Post('profile')
   async profile(@CurrentUserId() id: number) {
     try {
@@ -84,6 +90,9 @@ export class UsersController {
     }
   }
 
+  @ApiOperation({
+    summary: `User Change Password after first login.`,
+  })
   @FirstLogin()
   @Put('change/password')
   async isChangePassword(
@@ -100,6 +109,9 @@ export class UsersController {
     }
   }
 
+  @ApiOperation({
+    summary: `Logout  Users.`,
+  })
   @Put('logout')
   async logout(@CurrentUserId() id: number) {
     try {
