@@ -31,6 +31,8 @@ export class AccessGuard extends AuthGuard(access_strategy) {
     if (!isPublic) {
       const request = context.switchToHttp().getRequest();
       const requestToken = ExtractJwt.fromAuthHeaderAsBearerToken()(request);
+      console.log(requestToken);
+      console.log(request.headers);
       if (!requestToken) {
         unauthorizedErrorMessage(
           `Sorry to access. You don't have access token. please check and verify your credential and contact admin.`,

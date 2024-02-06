@@ -20,6 +20,7 @@ export class RoleGuard implements CanActivate {
       ctx.getHandler(),
       ctx.getClass(),
     ]);
+    console.log(requireRoles);
     const isPublic = this.reflector.getAllAndOverride(metaKey, [
       ctx.getHandler(),
       ctx.getClass(),
@@ -50,11 +51,15 @@ export class RoleGuard implements CanActivate {
       }
       const superAdmin = userRole === Roles.superAdmin;
 
-      const admin = userRole === Roles.admin || userRole === Roles.users;
-      const controlUserRole = requireRoles.some(
-        (reqRole) => reqRole === userRole,
-      );
-      return superAdmin ? true : admin ? true : controlUserRole;
+      const admin = userRole === Roles.admin;
+      // const users = userRole === Roles.users;
+      if (superAdmin || admin) {
+        return true;
+      }
+      if (!requireRoles.includes(userRole)) {
+        errorMessage(`Sorry! You are not able to this feature.`, 'access');
+      }
+      return requireRoles.includes(userRole);
     }
   }
 }

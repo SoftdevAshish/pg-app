@@ -11,16 +11,18 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { successMessage } from '../../utils/response';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { Public } from '../../decorators/public.decorator';
 import { PasswordDto } from './dto/password.dto';
 import { CurrentUserId } from '../../decorators/current-user-id';
 import { FirstLogin } from '../../decorators/first-login.decorator';
+import { Role } from '../../decorators/roles.decorator';
+import { Roles } from '../../helpers/all.enum';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('users ')
-@Controller('users')
+@ApiBearerAuth('token')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -60,9 +62,7 @@ export class UsersController {
   @ApiOperation({
     summary: ` Get Users By Id.`,
   })
-  @ApiOperation({
-    summary: `Users Profile Views By Id.`,
-  })
+  @Role(Roles.admin)
   @Get(':id')
   async findById(@Param('id') id: number) {
     try {
