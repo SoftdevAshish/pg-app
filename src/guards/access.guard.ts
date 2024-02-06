@@ -37,8 +37,9 @@ export class AccessGuard extends AuthGuard(access_strategy) {
           'Unauthorized',
         );
       }
-      isMatchToken = await this.compareToken(requestToken);
-      if (await this.compareToken(requestToken)) {
+      const isPassToken = await this.compareToken(requestToken);
+      isMatchToken = isPassToken;
+      if (!isPassToken) {
         errorMessage('Your Token Expired.  try again', 'token expire');
       }
     }
